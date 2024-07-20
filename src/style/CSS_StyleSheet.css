@@ -1,0 +1,27 @@
+#backG{
+    -fx-background-color: linear-gradient( #93BAEB , #558FDB, #0357C5);
+}
+#ticTacToe {
+    -fx-font-family: 'Moo Lah Lah';
+    -fx-font-size: 70px;
+}
+#yellow {
+    -fx-font-family: 'Moo Lah Lah';
+     -fx-text-fill:#FFC201;
+    -fx-font-size: 25px;
+}
+#pink {
+    -fx-font-family: 'Moo Lah Lah';
+     -fx-text-fill:#D72978;
+    -fx-font-size: 35px;
+}
+#yellow2 {
+    -fx-font-family: 'Moo Lah Lah';
+     -fx-text-fill:#FFC201;
+    -fx-font-size: 35px;
+}
+#black {
+    -fx-font-family: 'Moo Lah Lah';
+     -fx-text-fill:#000000;
+    -fx-font-size: 40px;
+}

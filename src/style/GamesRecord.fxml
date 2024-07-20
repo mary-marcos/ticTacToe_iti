@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.MotionBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.GamesRecordController">
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="icon" fitHeight="150.0" fitWidth="200.0" layoutX="283.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+            </ImageView>
+            <Label id="ticTacToe" fx:id="onlineLabel" layoutX="154.0" layoutY="127.0" prefHeight="103.0" prefWidth="475.0" text="Games Record" textAlignment="CENTER" textFill="#d72978" wrapText="true">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Label>
+            <Label id="ticTacToe" layoutX="73.0" layoutY="48.0" text="X" textAlignment="CENTER" textFill="#ffc201">
+               <effect>
+                  <MotionBlur radius="3.0" />
+               </effect>
+            </Label>
+            <Label id="ticTacToe" layoutX="664.0" layoutY="105.0" text="O" textAlignment="CENTER" textFill="#d72978">
+               <effect>
+                  <MotionBlur radius="3.0" />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="334.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button id="backBtn" fx:id="backBtn" accessibleText="about" layoutX="5.0" layoutY="272.0" mnemonicParsing="false" onAction="#back" prefHeight="54.0" prefWidth="85.0" style="-fx-background-color: #d72978; -fx-background-radius: 40;" text="Back" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <TableView fx:id="gamesRecordTabel" layoutX="96.0" layoutY="21.0" prefHeight="251.0" prefWidth="601.0" style="-fx-background-color: #FFD758; -fx-background-radius: 0 0 40 40;">
+               <columns>
+                  <TableColumn fx:id="gameID" prefWidth="69.5" style="-fx-border-color: #000; -fx-background-color: #FFD758;" text="Game ID" />
+                  <TableColumn fx:id="date" prefWidth="161.5" style="-fx-background-color: #FFD758; -fx-border-color: #000;" text="Date" />
+                  <TableColumn fx:id="Scour" prefWidth="80.5" style="-fx-background-color: #FFD758; -fx-border-color: #000;" text="Scour" />
+                  <TableColumn fx:id="player2Name" prefWidth="181.0" style="-fx-background-color: #FFD758; -fx-border-color: #000;" text="Player 2 Name" />
+                  <TableColumn fx:id="recorded" prefWidth="104.0" style="-fx-background-color: #FFD758; -fx-border-color: #000;" text="Recorded" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
