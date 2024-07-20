@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.MotionBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="283.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+            </ImageView>
+            <Label id="ticTacToe" layoutX="70.0" layoutY="136.0" prefHeight="103.0" prefWidth="610.0" text="Single Player Mode" textAlignment="CENTER" textFill="#d72978" wrapText="true">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Label>
+            <Label id="ticTacToe" layoutX="54.0" layoutY="41.0" text="X" textAlignment="CENTER" textFill="#ffc201">
+               <effect>
+                  <MotionBlur />
+               </effect></Label>
+            <Label id="ticTacToe" layoutX="669.0" layoutY="110.0" text="O" textAlignment="CENTER" textFill="#d72978">
+               <effect>
+                  <MotionBlur />
+               </effect></Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane fx:id="totalScoorTxt" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField id="yellow" fx:id="totalScoorTxt" alignment="CENTER" editable="false" focusTraversable="false" layoutX="226.0" layoutY="36.0" style="-fx-background-radius: 40;" text="Total scoor: 0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <Button fx:id="easyBtn" accessibleText="about" layoutX="295.0" layoutY="104.0" mnemonicParsing="false" onAction="#easyMode" prefHeight="54.0" prefWidth="126.0" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Easy" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="hardBtn" accessibleText="about" layoutX="295.0" layoutY="239.0" mnemonicParsing="false" onAction="#hardMode" prefHeight="54.0" prefWidth="126.0" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Hard" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="mediumBtn" accessibleText="about" layoutX="295.0" layoutY="172.0" mnemonicParsing="false" onAction="#mediumMode" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Medium" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Label id="ticTacToe" layoutX="653.0" layoutY="198.0" text="X" textAlignment="CENTER" textFill="#ffc201">
+               <effect>
+                  <MotionBlur />
+               </effect></Label>
+            <Label id="ticTacToe" layoutX="30.0" layoutY="178.0" text="O" textAlignment="CENTER" textFill="#d72978">
+               <effect>
+                  <MotionBlur />
+               </effect></Label>
+            <Button fx:id="backBtn" accessibleText="about" layoutX="14.0" layoutY="266.0" mnemonicParsing="false" onAction="#back" prefHeight="54.0" prefWidth="107.0" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Easy" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
+   </center>
+</BorderPane>

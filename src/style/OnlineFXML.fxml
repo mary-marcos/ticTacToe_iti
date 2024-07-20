@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.MotionBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.OnlineFXMLController">
+   <top>
+      <AnchorPane prefHeight="232.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="icon" fitHeight="150.0" fitWidth="200.0" layoutX="283.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+            </ImageView>
+            <Label id="ticTacToe" fx:id="onlineLabel" layoutX="283.0" layoutY="140.0" prefHeight="103.0" prefWidth="212.0" text="Online" textAlignment="CENTER" textFill="#d72978" wrapText="true">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Label>
+            <Label id="ticTacToe" layoutX="47.0" layoutY="46.0" text="X" textAlignment="CENTER" textFill="#ffc201">
+               <effect>
+                  <MotionBlur radius="3.0" />
+               </effect>
+            </Label>
+            <Label id="ticTacToe" layoutX="654.0" layoutY="154.0" text="O" textAlignment="CENTER" textFill="#d72978">
+               <effect>
+                  <MotionBlur radius="3.0" />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="332.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="onlineTabel" layoutX="130.0" layoutY="13.0" prefHeight="301.0" prefWidth="491.0" style="-fx-background-color: #FFD758; -fx-background-radius: 0 0 40 40;">
+              <columns>
+                <TableColumn fx:id="playerNameC" prefWidth="190.0" style="-fx-border-color: #000; -fx-background-color: #FFD758;" text="Player Name" />
+                <TableColumn fx:id="status" prefWidth="113.0" style="-fx-background-color: #FFD758; -fx-border-color: #000;" text="Status" />
+                  <TableColumn fx:id="Avilability" prefWidth="185.5" style="-fx-background-color: #FFD758; -fx-border-color: #000;" text="Avilability" />
+              </columns>
+            </TableView>
+            <Button id="backBtn" fx:id="backBtn" accessibleText="about" layoutX="5.0" layoutY="268.0" mnemonicParsing="false" onAction="#back" prefHeight="54.0" prefWidth="96.0" style="-fx-background-color: #d72978; -fx-background-radius: 40;" text="Back" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

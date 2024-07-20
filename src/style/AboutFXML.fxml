@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="backG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="ticTacToe" alignment="CENTER" layoutX="175.0" layoutY="26.0" prefHeight="103.0" prefWidth="400.0" text="Created By" textAlignment="CENTER" textFill="#d72978">
+         <font>
+            <Font size="70.0" />
+         </font>
+      </Label>
+      <Ellipse fill="#ffc201" layoutX="217.0" layoutY="242.0" radiusX="146.0" radiusY="72.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label alignment="CENTER" layoutX="87.0" layoutY="210.0" prefHeight="64.0" prefWidth="261.0" text="Ahmed Nasser" wrapText="true">
+         <font>
+            <Font name="Vivaldi Italic" size="38.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#1174cb" />
+                  <Stop color="#d72978" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Ellipse fill="#ffc201" layoutX="551.0" layoutY="242.0" radiusX="146.0" radiusY="72.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="#ffc201" layoutX="551.0" layoutY="433.0" radiusX="149.0" radiusY="72.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="#ffc201" layoutX="218.0" layoutY="433.0" radiusX="149.0" radiusY="72.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label alignment="CENTER" layoutX="401.0" layoutY="401.0" prefHeight="64.0" prefWidth="292.0" text="Mohammed Hassan" wrapText="true">
+         <font>
+            <Font name="Vivaldi Italic" size="38.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#1174cb" />
+                  <Stop color="#d72978" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="87.0" layoutY="401.0" prefHeight="64.0" prefWidth="261.0" text="Moneer Ahmed" wrapText="true">
+         <font>
+            <Font name="Vivaldi Italic" size="38.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#1174cb" />
+                  <Stop color="#d72978" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="417.0" layoutY="210.0" prefHeight="64.0" prefWidth="261.0" text="Mary marcos" wrapText="true">
+         <font>
+            <Font name="Vivaldi Italic" size="38.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#1174cb" />
+                  <Stop color="#d72978" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="183.0" layoutY="522.0" text="Mobile Applications Development For Android 2024-R3 ITI Ismailia" />
+   </children>
+</AnchorPane>
