@@ -133,7 +133,7 @@ public class LeadBoardScr extends AnchorPane {
         motionBlur0 = new MotionBlur();
         
         signInScr = new SignInScr(_stage);
-        chooseModeSrc = new ChooseModeScr(_stage);
+        chooseModeSrc = new ChooseModeScr(_stage,"none");
         
         setId("AnchorPane");
         setPrefHeight(570.0);

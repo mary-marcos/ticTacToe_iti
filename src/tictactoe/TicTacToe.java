@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -17,16 +18,13 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class TicTacToe extends Application {
-    private ActionEvent actionEvent;
-    SignInScr signInSrc;
-    
-    
+    SignInScr root;
     @Override
     public void start(Stage stage) throws Exception {
         
         Font.loadFont(getClass().getResource("/fonts/MooLahLah-Regular.ttf").toExternalForm(), 10);
         
-        SignInScr root = new SignInScr(stage);
+        root = new SignInScr(stage);
         root.setId("backG");
         Scene scene = new Scene(root,750,570);
         scene.getStylesheets().add(getClass()
@@ -43,9 +41,12 @@ public class TicTacToe extends Application {
     }
 
     public void exit(Stage stage) {
-        SignInScr signInSrc = new SignInScr(stage);
+        
         try {
-            signInSrc.dos.writeUTF("signOut"+signInSrc.userName);
+            if (root.signInclicked)
+            {
+                root.dos.writeUTF("signOut,"+root.userName);
+            }
         } catch (IOException ex) {
             Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,10 +58,10 @@ public class TicTacToe extends Application {
         alert.showAndWait().ifPresent(buttonType -> {
             if (buttonType == ButtonType.YES) {
                 try {
-                    if (signInSrc.clientSocket != null && signInSrc.clientSocket.isConnected()) {
-                        signInSrc.dis.close();
-                        signInSrc.dos.close();
-                        signInSrc.clientSocket.close();
+                    if (root.clientSocket != null && root.clientSocket.isConnected()) {
+                        root.dis.close();
+                        root.dos.close();
+                        root.clientSocket.close();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);

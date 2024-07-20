@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -23,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
@@ -55,6 +57,7 @@ public class SignInScr extends BorderPane {
     protected DataInputStream dis;
     protected DataOutputStream dos;
     protected String userName; 
+    boolean signInclicked= false;
 
     public SignInScr(Stage _stage) {
 
@@ -202,7 +205,7 @@ public class SignInScr extends BorderPane {
     
     protected void chooseModeScreen (Event action)
     {
-        chooseModeSrc = new ChooseModeScr(stage);
+        chooseModeSrc = new ChooseModeScr(stage,userNameTxt.getText());
         chooseModeSrc.setId("backG");
         stage = (Stage)((Node)action.getSource()).getScene().getWindow();
         scene = new Scene(chooseModeSrc,750,570);
@@ -214,7 +217,8 @@ public class SignInScr extends BorderPane {
 
    protected void signIn(ActionEvent actionEvent)
     {
-        userName = userNameTxt.getText();
+       userName = userNameTxt.getText();
+       signInclicked = true;
        satablishConnection();
        String  datain  = "signin" + ","+ userNameTxt.getText() + "," + passwordTxt.getText() ;
 
@@ -228,20 +232,13 @@ public class SignInScr extends BorderPane {
            try {
                while (true) {
                    String input = dis.readUTF();
+                   System.out.println("input");
 
                    if (input.equals("true")) {
-                      
-                           try {
-                               String data = "signin" + ","+ userNameTxt.getText() + "," + passwordTxt.getText();
-                                dos.writeUTF(data);
                                 
-                               Platform.runLater(() ->{ 
-                                       chooseModeScreen(actionEvent);
-                               });
-                           } catch (IOException ex) {
-                               Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-                           }
-
+                        Platform.runLater(() ->{ 
+                            chooseModeScreen(actionEvent);
+                        });
                        break;
                    } else {
                        Platform.runLater(() -> 
@@ -260,15 +257,17 @@ public class SignInScr extends BorderPane {
     }
    public void satablishConnection ()
     {
+                    
         try {
-            
             clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
             dis = new DataInputStream(clientSocket.getInputStream());
             dos = new DataOutputStream(clientSocket.getOutputStream());
-            
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
 
     }
 

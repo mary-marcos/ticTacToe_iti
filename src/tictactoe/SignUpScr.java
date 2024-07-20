@@ -5,12 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -286,7 +285,7 @@ public class SignUpScr extends BorderPane {
 
     protected void backToSignIn(MouseEvent mouseEvent)
     {
-        stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         navigateToSignIn();
         
     }
@@ -308,21 +307,22 @@ public class SignUpScr extends BorderPane {
         ButtonType button = new ButtonType(buttonText);
         alert.getButtonTypes().setAll(button);
         alert.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == ButtonType.OK) {
-                navigateToSignIn();
+            if (buttonType == button) {
+                alert.close();
             }
         });
     }
     public void satablishConnection ()
     {
+        
         try {
-            
             clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
             dis = new DataInputStream(clientSocket.getInputStream());
             dos = new DataOutputStream(clientSocket.getOutputStream());
-            
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
