@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.FXMLDocumentController">
+   <center>
+      <AnchorPane id="AnchorPane" prefHeight="534.0" prefWidth="752.0">
+         <children>
+            <Pane layoutX="33.0" layoutY="57.0" prefHeight="451.0" prefWidth="269.0" style="-fx-background-color: E1C15C; -fx-background-radius: 20PX;">
+               <children>
+                  <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="9.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/boy_145865.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="58.0" layoutX="14.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/email_10678225.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="44.0" layoutX="10.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/padlock_301677.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="44.0" fitWidth="46.0" layoutX="10.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/reset-password_6195699.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="user_Name" alignment="CENTER" layoutX="75.0" layoutY="75.0" promptText="user Name" style="-fx-background-radius: 40;" />
+                  <TextField fx:id="E_Mail" alignment="CENTER" layoutX="74.0" layoutY="141.0" promptText="E-Mail" style="-fx-background-radius: 40;" />
+                  <Label fx:id="haveAcc" layoutX="49.0" layoutY="411.0" onMouseEntered="#handleButtonAction" text="Have an account ?" textFill="WHITE" />
+                  <Label layoutX="96.0" layoutY="14.0" text="Sing Up" textFill="WHITE">
+                     <font>
+                        <Font name="AGA Arabesque" size="32.0" />
+                     </font>
+                  </Label>
+                  <PasswordField alignment="CENTER" layoutX="74.0" layoutY="211.0" promptText="Password" style="-fx-background-radius: 40;" />
+                  <PasswordField alignment="CENTER" layoutX="74.0" layoutY="279.0" promptText="Repeat password" style="-fx-background-radius: 40;" />
+                  <Button alignment="CENTER" layoutX="90.0" layoutY="342.0" mnemonicParsing="false" onAction="#signUp" prefHeight="54.0" prefWidth="122.0" style="-fx-background-color: #D72978; -fx-background-radius: 40;" text="Sign UP" textFill="WHITE">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="163.0" layoutY="408.0" onMouseClicked="#backToSignIn" text="Sign In" textFill="#d72978">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userNameWarning" layoutX="73.0" layoutY="111.0" text="User name shouldn't have spaces" textAlignment="CENTER" textFill="#f00808">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="EMailWarning" layoutX="73.0" layoutY="184.0" text="User name shouldn't have spaces" textAlignment="CENTER" textFill="#f00808">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="passwordWarning" layoutX="73.0" layoutY="255.0" text="User name shouldn't have spaces" textAlignment="CENTER" textFill="#f00808">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="rePasswordWarning" layoutX="102.0" layoutY="316.0" text="Must match password" textAlignment="CENTER" textFill="#f00808">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <ImageView fitHeight="112.0" fitWidth="134.0" layoutX="449.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../TicTacToy/src/images/logo.png" />
+               </image>
+            </ImageView>
+            <Label id="ticTacToe" layoutX="360.0" layoutY="240.0" text="Tic Tac Toe">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

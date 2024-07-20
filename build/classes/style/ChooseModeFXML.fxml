@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="250.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="283.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+            </ImageView>
+            <Label id="ticTacToe" layoutX="203.0" layoutY="133.0" prefHeight="92.0" prefWidth="344.0" text="Tic Tac Toe" textAlignment="CENTER">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Label>
+            <Label id="ticTacToe" layoutX="54.0" layoutY="41.0" text="X" textAlignment="CENTER" textFill="#ffc201" />
+            <Label id="ticTacToe" layoutX="672.0" layoutY="140.0" text="O" textAlignment="CENTER" textFill="#d72978" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane minHeight="-Infinity" prefHeight="120.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button accessibleText="singlePlayerBtn" layoutX="46.0" layoutY="37.0" mnemonicParsing="false" onAction="#singlePlayerMode" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Single Player Mode" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button accessibleText="multiPlayerBtn" layoutX="473.0" layoutY="37.0" mnemonicParsing="false" onAction="#multiPlayerMode" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Multi Player Mode" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <AnchorPane prefHeight="192.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button accessibleText="leadBoard" layoutX="45.0" layoutY="96.0" mnemonicParsing="false" onAction="#leadBoard" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Lead board" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button accessibleText="about" layoutX="324.0" layoutY="96.0" mnemonicParsing="false" onAction="#about" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="About" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button accessibleText="signOut" layoutX="553.0" layoutY="96.0" mnemonicParsing="false" onAction="#signOut" style="-fx-background-color: #FFC201; -fx-background-radius: 40;" text="Sign out" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Label id="ticTacToe" layoutX="642.0" layoutY="31.0" text="X" textAlignment="CENTER" textFill="#ffc201" />
+            <Label id="ticTacToe" layoutX="39.0" layoutY="31.0" text="O" textAlignment="CENTER" textFill="#d72978" />
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>
