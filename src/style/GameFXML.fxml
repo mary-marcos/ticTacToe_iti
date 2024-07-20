@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="ticTacToe" prefHeight="570.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="ticTacToe" alignment="CENTER" layoutX="318.0" layoutY="47.0" prefHeight="47.0" prefWidth="114.0" text="VS PC" textFill="#d72978">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="193.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/boy_145865.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="501.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/monitor_303572.png" />
+         </image>
+      </ImageView>
+      <Label id="ticTacToe" alignment="CENTER" layoutX="311.0" layoutY="116.0" prefHeight="38.0" prefWidth="133.0" style="-fx-background-color: white; -fx-background-radius: 20px;" text="0:0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="231.0" layoutY="215.0" prefHeight="250.0" prefWidth="320.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btn1" mnemonicParsing="false" prefHeight="84.0" prefWidth="113.0" style="-fx-background-color: white;" styleClass="ticTacToe" text="btn">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn4" mnemonicParsing="false" prefHeight="83.0" prefWidth="132.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn03" mnemonicParsing="false" prefHeight="84.0" prefWidth="124.0" style="-fx-background-color: white;" styleClass="ticTacToe" textAlignment="RIGHT" textFill="#9e6d6d" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn7" mnemonicParsing="false" prefHeight="83.0" prefWidth="157.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn6" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn9" mnemonicParsing="false" prefHeight="83.0" prefWidth="154.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn2" mnemonicParsing="false" prefHeight="84.0" prefWidth="107.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn5" mnemonicParsing="false" prefHeight="82.0" prefWidth="150.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btn8" mnemonicParsing="false" prefHeight="83.0" prefWidth="176.0" style="-fx-background-color: white;" styleClass="ticTacToe" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+      </GridPane>
+      <Label id="ticTacToe" layoutX="177.0" layoutY="154.0" text="x">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label id="ticTacToe" layoutX="568.0" layoutY="154.0" text="o">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="RecordBtn" layoutX="349.0" layoutY="512.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" style="-fx-background-color: #FFC201; -fx-background-radius: 20px;" text="Record Game" textFill="#f2f2f2" />
+      <Button fx:id="ScreenShotBtn" layoutX="543.0" layoutY="512.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" style="-fx-background-color: #FFC201; -fx-background-radius: 20px;" text="Screen Shot" textFill="#fffefe" />
+      <Button fx:id="backBtn" layoutX="21.0" layoutY="55.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" style="-fx-background-color: #FFC201; -fx-background-radius: 20px;" text="back" textFill="#fffafa" />
+      <Button fx:id="resetBtn" layoutX="142.0" layoutY="512.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" style="-fx-background-color: #FFC201; -fx-background-radius: 20px;" text="Reset" textFill="#fffdfd" />
+   </children>
+</AnchorPane>
