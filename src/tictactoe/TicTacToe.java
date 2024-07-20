@@ -47,7 +47,7 @@ public class TicTacToe extends Application {
         try {
             if (root.signInclicked)
             {
-                root.dos.writeUTF("signOut"+root.userName);
+                root.dos.writeUTF("signOut,"+root.userName);
             }
         } catch (IOException ex) {
             Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
