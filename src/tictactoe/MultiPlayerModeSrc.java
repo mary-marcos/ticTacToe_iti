@@ -60,7 +60,7 @@ public class MultiPlayerModeSrc extends BorderPane
         backBtn = new Button();
         
         signInScr = new SignInScr(_stage);
-        chooseModeSrc = new ChooseModeScr(_stage,"none");
+        chooseModeSrc = new ChooseModeScr(_stage);
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);

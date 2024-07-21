@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 public class TicTacToe extends Application {
     SignInScr root;
+    Clint clint = Clint.obj();
     @Override
     public void start(Stage stage) throws Exception {
         
@@ -42,14 +43,18 @@ public class TicTacToe extends Application {
 
     public void exit(Stage stage) {
         
-        try {
-            if (root.signInclicked)
+        if (clint.isExist)
+        {
+            try 
             {
-                root.dos.writeUTF("signOut,"+root.userName);
+                clint.signOut();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit");
         alert.setHeaderText("Are you sure? Do you want to leave?");
@@ -57,15 +62,16 @@ public class TicTacToe extends Application {
 
         alert.showAndWait().ifPresent(buttonType -> {
             if (buttonType == ButtonType.YES) {
+              
                 try {
-                    if (root.clientSocket != null && root.clientSocket.isConnected()) {
-                        root.dis.close();
-                        root.dos.close();
-                        root.clientSocket.close();
+                    if (clint.isExist)
+                    {
+                    clint.closeConnection();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 Platform.exit();
             } else {
                 alert.close();

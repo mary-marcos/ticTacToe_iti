@@ -52,12 +52,8 @@ public class SignInScr extends BorderPane {
     private ChooseModeScr chooseModeSrc;
     private Stage stage;
     private Scene scene;
-    boolean isGuest;
-    protected Socket clientSocket;
-    protected DataInputStream dis;
-    protected DataOutputStream dos;
-    protected String userName; 
-    boolean signInclicked= false;
+    Clint clint = Clint.obj();
+   
 
     public SignInScr(Stage _stage) {
 
@@ -205,7 +201,7 @@ public class SignInScr extends BorderPane {
     
     protected void chooseModeScreen (Event action)
     {
-        chooseModeSrc = new ChooseModeScr(stage,userNameTxt.getText());
+        chooseModeSrc = new ChooseModeScr(stage);
         chooseModeSrc.setId("backG");
         stage = (Stage)((Node)action.getSource()).getScene().getWindow();
         scene = new Scene(chooseModeSrc,750,570);
@@ -217,59 +213,36 @@ public class SignInScr extends BorderPane {
 
    protected void signIn(ActionEvent actionEvent)
     {
-       userName = userNameTxt.getText();
-       signInclicked = true;
-       satablishConnection();
-       String  datain  = "signin" + ","+ userNameTxt.getText() + "," + passwordTxt.getText() ;
-
-       try {
-           dos.writeUTF(datain);
-       } catch (IOException ex) {
-           Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-       }
-
-       Thread myThread = new Thread(() -> {
-           try {
-               while (true) {
-                   String input = dis.readUTF();
-                   System.out.println("input");
-
-                   if (input.equals("true")) {
-                                
-                        Platform.runLater(() ->{ 
-                            chooseModeScreen(actionEvent);
-                        });
-                       break;
-                   } else {
-                       Platform.runLater(() -> 
-                           showAlert("Incorrect user name or password",
-                                   "Please Check user name and Password", "ok")
-                       );
-                       break;
-                   }
-               }
-           } catch (IOException ex) {
-               Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-           }
-       });
-
-       myThread.start();
-    }
-   public void satablishConnection ()
-    {
-                    
-        try {
-            clientSocket = new Socket("10.178.240.79", 5005);
-            dis = new DataInputStream(clientSocket.getInputStream());
-            dos = new DataOutputStream(clientSocket.getOutputStream());
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        clint.satablishConnection();
+        try 
+        {
+            clint.sendsignIn(userNameTxt.getText(), passwordTxt.getText());
+        } catch (IOException ex) 
+        {
             Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-
+        
+        clint.readFromServer();
+        if (clint.isExist)
+        {                    
+                chooseModeScreen(actionEvent);
+        } 
+         else
+         {
+           Platform.runLater(() ->
+           {
+             showAlert("Incorrect user name or password",
+                            "Please Check user name and Password", "ok");
+           });
+         }
+        
+//            try {
+//                clint.closeConnection();
+//            } catch (IOException ex) {
+//                Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
+//            }
     }
+       
 
     protected void signUp(javafx.scene.input.MouseEvent mouseEvent)
     {
@@ -286,7 +259,6 @@ public class SignInScr extends BorderPane {
 
     protected void guest(Event mouseEvent)
     {
-        isGuest = true; 
         chooseModeScreen(mouseEvent);
         chooseModeSrc.button3.setVisible(false);
         chooseModeSrc.button1.setVisible(false);

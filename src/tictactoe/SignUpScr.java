@@ -56,9 +56,7 @@ public class SignUpScr extends BorderPane {
     private SignInScr signInSrc;
     private Stage stage;
     private Scene scene;
-    private Socket clientSocket;
-    private DataInputStream dis;
-    private DataOutputStream dos;
+    Clint clint;
 
     public SignUpScr(Stage stage) {
 
@@ -82,7 +80,8 @@ public class SignUpScr extends BorderPane {
         rePasswordWarning = new Label();
         imageView3 = new ImageView();
         ticTacToe = new Label();
-
+        
+        clint = Clint.obj();
         anchorPane.setId("AnchorPane");
         anchorPane.setPrefHeight(534.0);
         anchorPane.setPrefWidth(752.0);
@@ -312,87 +311,35 @@ public class SignUpScr extends BorderPane {
             }
         });
     }
-    public void satablishConnection ()
+    private void checkDublicatedUser()
     {
-        
+        clint.satablishConnection();
         try {
-            clientSocket = new Socket("10.178.240.79", 5005);
-            dis = new DataInputStream(clientSocket.getInputStream());
-            dos = new DataOutputStream(clientSocket.getOutputStream());
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
+            clint.sendUserName(user_Name.getText());
         } catch (IOException ex) {
             Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-    
-    private void checkDublicatedUser()
-    {
-        String userNameCheck = "checkUserName," + user_Name.getText();
-        satablishConnection();
-        try 
-        {
-            dos.writeUTF(userNameCheck);
-        } 
-        catch (IOException ex) 
-        {
-                Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        clint.readFromServer();
         
-        Thread myThread = new Thread(() -> 
-        {
-            try 
-            {
-                while (true) 
-                {
-                    String input = dis.readUTF();
-
-                    if (!input.equals("exist")) 
+        System.out.println(clint.isRepeated);
+                    if (!clint.isRepeated) 
                     {
-                        String data = "signup,"+user_Name.getText()+"," +
-                                        passwordField.getText()+"," +E_Mail.getText();
-                        dos.writeUTF(data);
-                        
-                        Platform.runLater(() -> 
-                        {
-                                clearFields();
-                                showAlert("Successful", "Signed up Successfully", "ok");
-                            
-                        });
-                        break;
+                        try {
+                        clint.sendsignup(user_Name.getText(),passwordField.getText(), E_Mail.getText());
+                        } catch (IOException ex) {
+                        Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        clearFields();
+                        showAlert("Successful", "Signed up Successfully", "ok");
                     } 
                     else 
                     {
                         Platform.runLater(() -> 
                             showAlert("Duplicated user name", "Please choose another user name", "ok")
                         );
-                        break;
+
                     }
                 }
-            } 
-            catch (IOException ex) 
-            {
-                 Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            finally
-            {
-                try 
-                {
-                    dis.close();
-                    dos.close();
-                    clientSocket.close();
-                } 
-                catch (IOException ex) 
-                {
-                Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-
-        myThread.start();
-    }
     public void clearFields ()
     {
         user_Name.setText("");

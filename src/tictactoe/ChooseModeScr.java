@@ -8,10 +8,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.effect.MotionBlur;
@@ -50,11 +53,9 @@ public class ChooseModeScr extends BorderPane {
     private AboutScr aboutScr;
     private Stage stage;
     private Scene scene;
-    protected Socket clientSocket;
-    protected DataOutputStream dos;
-    protected String userName; 
+    Clint clint;
 
-    public ChooseModeScr(Stage _stage,String userName) {
+    public ChooseModeScr(Stage _stage) {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -73,7 +74,8 @@ public class ChooseModeScr extends BorderPane {
         label3 = new Label();
         
         signInSrc = new SignInScr(_stage);
-        this.userName = userName;
+        clint = Clint.obj();
+        stage = _stage;
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -294,31 +296,39 @@ public class ChooseModeScr extends BorderPane {
 
     protected void signOut(ActionEvent actionEvent)
     {
-        satablishConnection();
-        try {
-                dos.writeUTF("signOut,"+userName);
-                dos.close();
-                clientSocket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ChooseModeScr.class.getName()).log(Level.SEVERE, null, ex);
+        if (clint.isExist)
+        {
+            try 
+            {
+                clint.signOut();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        toSignInSrc(actionEvent);
-    }
-     public void satablishConnection ()
-    {
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("SignOut");
+        alert.setHeaderText("Are you sure? Do you want to Sign out?");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+        
+        alert.showAndWait().ifPresent(buttonType -> {
             
-        try {
-            clientSocket = new Socket("10.178.240.79", 5005);
-            dos = new DataOutputStream(clientSocket.getOutputStream());
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(ChooseModeScr.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ChooseModeScr.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-     
-
+            if (buttonType == ButtonType.YES) {
+              
+                try {
+                    clint.closeConnection();
+                } catch (IOException ex) {
+                    Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                Platform.runLater(()->{toSignInSrc(actionEvent);});
+            } else {
+                alert.close();
+            }
+        });
+    
     }
 
 }
