@@ -43,12 +43,9 @@ public class TicTacToe extends Application {
     }
 
     public void exit(Stage stage) {
-        
+        SignInScr signInSrc = new SignInScr(stage);
         try {
-            if (root.signInclicked)
-            {
-                root.dos.writeUTF("signOut,"+root.userName);
-            }
+            signInSrc.dos.writeUTF("signOut"+signInSrc.userName);
         } catch (IOException ex) {
             Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -60,10 +57,10 @@ public class TicTacToe extends Application {
         alert.showAndWait().ifPresent(buttonType -> {
             if (buttonType == ButtonType.YES) {
                 try {
-                    if (root.clientSocket != null && root.clientSocket.isConnected()) {
-                        root.dis.close();
-                        root.dos.close();
-                        root.clientSocket.close();
+                    if (signInSrc.clientSocket != null && signInSrc.clientSocket.isConnected()) {
+                        signInSrc.dis.close();
+                        signInSrc.dos.close();
+                        signInSrc.clientSocket.close();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);

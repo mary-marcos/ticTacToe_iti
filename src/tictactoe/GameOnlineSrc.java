@@ -30,8 +30,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tictactoe.models.GameOnlineLogic;
-import tictactoe.models.TicTacToeClient;
+
+
 
 public class GameOnlineSrc extends AnchorPane implements Runnable {
 
@@ -67,7 +67,7 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
     protected final Label label6;
     protected final StackPane triangleButtonPane;
     protected final Button triangleButton;
-    protected GameOnlineLogic gameLogic;
+   
     private String[][] board;
 
     // Thread thread;
@@ -318,20 +318,7 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
 
         isXTurn = true;
 
-        /*
-       try {
-            so = new Socket("127.0.0.1", 5005);
-            din = new DataInputStream(so.getInputStream());
-            dout = new DataOutputStream(so.getOutputStream());
-
-            
-            
-            
-           
-        } catch (IOException ex) {
-
-        } ;
-         */
+       
     }
 
     private void initializeButton(GridPane gridPane, Button button, int row, int column) {
@@ -350,10 +337,9 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
 
     public void handleButtonAction(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
-        //initializeBoard();
+        
         checksbutton(clickedButton);
-        // gameLogic = new GameOnlineLogic(gridPane, isXTurn, clickedButton,din,dout);
-        //this.isXTurn = !isXTurn;
+     
     }
 
     public void checksbutton(Button clickedButton) {
@@ -363,11 +349,7 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
             int row = GridPane.getRowIndex(clickedButton);
             int col = GridPane.getColumnIndex(clickedButton);
 
-            //  try {
-            //     client.sendMove(row, col, isXTurn ? "X" : "O");
-            // } catch (IOException e) {
-            //     e.printStackTrace();
-            //  }
+           
             String player = isXTurn ? "X" : "O";
 
             String move = "move," + row + "," + col + "," + player;
@@ -378,14 +360,14 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
                 dout.flush();
 
             } catch (IOException ex) {
-                Logger.getLogger(GameOnlineLogic.class.getName()).log(Level.SEVERE, null, ex);
+               
             }
              
             updateBoardFromUI(row, col, player);
             
              setButtonsDisabled(true);
 
-            //// isXTurn = !isXTurn;
+            
         }
     }
 
@@ -406,10 +388,9 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
                     
                     Platform.runLater(() -> {
                     updateBoardFromUI(row, col, player);
-                    // Enable buttons
+                    
                 });
-//                if(player=="O"){isXTurn=true;}
-//                else{isXTurn=false;}
+//               
                     isXTurn = !isXTurn;
 //               
 
@@ -433,7 +414,7 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
                 }
             }
         }
-        return null; // Handle case when button at (row, col) is not found
+        return null; 
     }
 
     public void updateBoardFromUI(int row, int col, String player) {
@@ -502,18 +483,7 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
         return true;
     }
 
-    //  private List<Button> getAvailableButtons() {
-    //     List<Button> availableButtons = new ArrayList<>();
-    //     for (Node node : gridPane.getChildren()) {
-    //       if (node instanceof Button) {
-    //          Button btn = (Button) node;
-    //         if (btn.getText().isEmpty()) {
-    //            availableButtons.add(btn);
-    //        }
-    //    }
-    //   }
-    //    return availableButtons;
-    // }
+  
     private void showAlert(String message) {
         String title = "Game Over - " + message;
         VBox vbox = new VBox();

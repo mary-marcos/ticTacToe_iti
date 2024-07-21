@@ -1,10 +1,6 @@
 package tictactoe;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -48,11 +44,8 @@ public class ChooseModeScr extends BorderPane {
     private AboutScr aboutScr;
     private Stage stage;
     private Scene scene;
-    protected Socket clientSocket;
-    protected DataOutputStream dos;
-    protected String userName; 
 
-    public ChooseModeScr(Stage _stage,String userName) {
+    public ChooseModeScr(Stage _stage) {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -69,9 +62,6 @@ public class ChooseModeScr extends BorderPane {
         button3 = new Button();
         label2 = new Label();
         label3 = new Label();
-        
-        signInSrc = new SignInScr(_stage);
-        this.userName = userName;
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -225,6 +215,7 @@ public class ChooseModeScr extends BorderPane {
     
     protected void toSignInSrc(ActionEvent action)
     {
+        signInSrc = new SignInScr(stage);
         signInSrc.setId("backG");
         stage = (Stage)((Node) action.getSource()).getScene().getWindow();
         scene = new Scene(signInSrc,750,570);
@@ -292,27 +283,15 @@ public class ChooseModeScr extends BorderPane {
 
     protected void signOut(ActionEvent actionEvent)
     {
-        satablishConnection();
         try {
-                dos.writeUTF("signOut,"+userName);
-                dos.close();
-                clientSocket.close();
+                signInSrc.dos.writeUTF("signOut"+signInSrc.userName);
+                signInSrc.dos.close();
+                signInSrc.dis.close();
+                signInSrc.clientSocket.close();
         } catch (IOException ex) {
             Logger.getLogger(ChooseModeScr.class.getName()).log(Level.SEVERE, null, ex);
         }
         toSignInSrc(actionEvent);
-    }
-     public void satablishConnection ()
-    {
-        try {
-            
-            clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
-            dos = new DataOutputStream(clientSocket.getOutputStream());
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
 }
