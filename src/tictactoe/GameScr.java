@@ -534,7 +534,8 @@ private void showAlert(String message) {
         videos = "/resources/videos/sad.mp4";
     } else if ("X wins!".equals(message)) {
         videos = "/resources/videos/congrats.mp4";
-    }
+    }else if ("O wins!".equals(message)) {
+        videos = "/resources/videos/congrats.mp4";}
 
     if (videos != null) {
         videoPath = getClass().getResource(videos).toExternalForm();
@@ -711,11 +712,11 @@ private void startrecord(ActionEvent actionEvent) {
         return content.toString();
     }
 
-    // Method to process the file content as needed
+   
     private void processFileContent(String content) {
-        // For example, print the content or process it further
+  
         System.out.println(content);
-        // Call a method to process the moves, if needed
+       
         processMoves(content);
     }
     private void processMoves(String allMoves) {

@@ -309,7 +309,7 @@ public class ChooseModeScr extends BorderPane {
 
             
         try {
-            clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
+            clientSocket = new Socket("10.178.240.79", 5005);
             dos = new DataOutputStream(clientSocket.getOutputStream());
         } catch (UnknownHostException ex) {
             Logger.getLogger(ChooseModeScr.class.getName()).log(Level.SEVERE, null, ex);

@@ -316,7 +316,7 @@ public class SignUpScr extends BorderPane {
     {
         
         try {
-            clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
+            clientSocket = new Socket("10.178.240.79", 5005);
             dis = new DataInputStream(clientSocket.getInputStream());
             dos = new DataOutputStream(clientSocket.getOutputStream());
         } catch (UnknownHostException ex) {

@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -74,10 +75,14 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
     Socket so;
     DataInputStream din;
     DataOutputStream dout;
+    MultiPlayerModeSrc multiplaysrc;
+    Stage stage;
+     private Scene scene;
 
     public GameOnlineSrc(Stage stage) {
+        this.stage=stage;
         try {
-            so = new Socket(InetAddress.getLocalHost(), 5005);
+            so = new Socket("10.178.240.79", 5005);
             din = new DataInputStream(so.getInputStream());
             dout = new DataOutputStream(so.getOutputStream());
 
@@ -221,6 +226,8 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
         backBtn.setStyle("-fx-background-color: #FFC201; -fx-background-radius: 20px;");
         backBtn.setText("back");
         backBtn.setTextFill(javafx.scene.paint.Color.valueOf("#fffafa"));
+       backBtn.setOnAction(
+                this::multiplaysrc);
 
         AnchorPane.setBottomAnchor(textArea, 155.0);
         textArea.setLayoutX(479.0);
@@ -319,6 +326,17 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
         isXTurn = true;
 
        
+    }
+    protected void multiplaysrc(ActionEvent action)
+    {
+        multiplaysrc = new MultiPlayerModeSrc(stage);
+        multiplaysrc.setId("backG");
+        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
+        scene = new Scene(multiplaysrc,750,570);
+        scene.getStylesheets().add(getClass()
+                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void initializeButton(GridPane gridPane, Button button, int row, int column) {
