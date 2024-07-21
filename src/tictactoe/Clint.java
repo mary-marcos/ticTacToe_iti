@@ -45,6 +45,7 @@ public class Clint
     }
     public void closeConnection () throws IOException
     {
+        dos.writeUTF("signOut");
         dos.close();
         dis.close();
         clientSocket.close();

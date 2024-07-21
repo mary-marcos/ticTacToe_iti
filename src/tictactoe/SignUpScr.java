@@ -331,13 +331,22 @@ public class SignUpScr extends BorderPane {
                         }
                         clearFields();
                         showAlert("Successful", "Signed up Successfully", "ok");
+            try {
+                clint.closeConnection();
+            } catch (IOException ex) {
+                Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     } 
                     else 
                     {
                         Platform.runLater(() -> 
                             showAlert("Duplicated user name", "Please choose another user name", "ok")
                         );
-
+                        try {
+                            clint.closeConnection();
+                        } catch (IOException ex) {
+                            Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
     public void clearFields ()
