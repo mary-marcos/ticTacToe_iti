@@ -1,11 +1,6 @@
 package tictactoe;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -57,6 +52,7 @@ public class SignUpScr extends BorderPane {
     private Stage stage;
     private Scene scene;
     Clint clint;
+    boolean successfulSignUp = false;
 
     public SignUpScr(Stage stage) {
 
@@ -273,6 +269,11 @@ public class SignUpScr extends BorderPane {
                     if (checkRePassword())
                     {
                         checkDublicatedUser();
+                        if (successfulSignUp)
+                        {
+                            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                            navigateToSignIn();
+                        }
                     }
                 }
                     
@@ -314,48 +315,45 @@ public class SignUpScr extends BorderPane {
     private void checkDublicatedUser()
     {
         clint.satablishConnection();
-        try {
+        try 
+        {
             clint.sendUserName(user_Name.getText());
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
         }
         clint.readFromServer();
-        
-        System.out.println(clint.isRepeated);
-                    if (!clint.isRepeated) 
-                    {
-                        try {
-                        clint.sendsignup(user_Name.getText(),passwordField.getText(), E_Mail.getText());
-                        } catch (IOException ex) {
-                        Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        clearFields();
-                        showAlert("Successful", "Signed up Successfully", "ok");
-            try {
-                clint.closeConnection();
-            } catch (IOException ex) {
+
+        if (!clint.isRepeated) 
+        {
+            try 
+            {
+                clint.sendsignup(user_Name.getText(),passwordField.getText(), E_Mail.getText());
+            } 
+            catch (IOException ex) 
+            {
                 Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
             }
-                    } 
-                    else 
-                    {
-                        Platform.runLater(() -> 
-                            showAlert("Duplicated user name", "Please choose another user name", "ok")
-                        );
-                        try {
-                            clint.closeConnection();
-                        } catch (IOException ex) {
-                            Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-    public void clearFields ()
-    {
-        user_Name.setText("");
-        E_Mail.setText("");
-        passwordField.setText("");
-        rePasswordField.setText("");
-        
+            
+            showAlert("Successful", "Signed up Successfully", "ok");
+
+            successfulSignUp = true;
+        } 
+        else 
+        {
+            Platform.runLater(() -> 
+            showAlert("Duplicated user name", "Please choose another user name", "ok")
+            );
+            try 
+            {
+                clint.closeConnection();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(SignUpScr.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     private boolean checkUserName()

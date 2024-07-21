@@ -89,7 +89,6 @@ public class Clint
     
     public void sendsignup(String userName, String password , String email) throws IOException 
     {
-        satablishConnection();
         String  data  = "signup,"+ userName+ "," +  password + "," + email ;
         dos.writeUTF(data);
         closeConnection();
