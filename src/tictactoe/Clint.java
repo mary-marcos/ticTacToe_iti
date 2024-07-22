@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,30 +19,26 @@ public class Clint
     boolean isRepeated =false;
     String userName;
     private static Clint instance;
-    
+    int usersCount;
+    Vector <Users> usersData = new Vector <>();
     private Clint()
     {
         
     }
      public static synchronized Clint obj() {
-        if (instance == null) {
+        if (instance == null) 
+        {
             instance = new Clint();
         }
         return instance;
     }
     
-    public void satablishConnection ()
+    public void stablishConnection() throws IOException
     {
-        try {
-            
-            clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
-            dis = new DataInputStream(clientSocket.getInputStream());
-            dos = new DataOutputStream(clientSocket.getOutputStream());
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        clientSocket = new Socket(InetAddress.getLocalHost(), 5005);
+        dis = new DataInputStream(clientSocket.getInputStream());
+        dos = new DataOutputStream(clientSocket.getOutputStream());
     }
     public void closeConnection () throws IOException
     {
@@ -55,35 +52,65 @@ public class Clint
     public void readFromServer() 
     {
            
-        try {
+        try 
+        {
             received = dis.readUTF();
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println(received);
+        String [] parts = received.split(",");
+            
+        switch (parts[0])
+        {
+            case "exist":
+
+                isRepeated = true;
+
+              break;
+            case "notExist":
+
+                isRepeated = false;
+            break;
+
+            case "true":
+                
+                isExist = true;
+                
+            break;
+                  
+            case "move":
+                            
+              break;
+            case "vectorSize":
+                
+                usersCount =Integer.parseInt(parts[1]) ;
+                readUsers();
+              break;
+
+        }
+
+    }
+    public void readUsers()
+    {
+        if (!usersData.isEmpty())
+        {
+           usersData.removeAllElements();
+        }
+        try {
+            for (int i = 0 ; i < usersCount; i++)
+            {
+                String received = dis.readUTF();
+                String[] parts = received.split(",");
+                Users user = new Users(parts[1] ,parts[2],parts[3]);
+                usersData.add(user);
+            }
         } catch (IOException ex) {
             Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println(received);
-            String [] parts = received.split(",");
-            
-            switch (parts[0])
-            {
-                case "exist":
-
-                    isRepeated = true;
-                            
-                  break;
-                case "notExist":
-                            
-                    isRepeated = false;
-                  break;
-
-                case "true":
-                    isExist = true;
-                  break;
-                  
-                case "move":
-                            
-                  break;
-            }
-
     }
       
     
@@ -93,25 +120,31 @@ public class Clint
         dos.writeUTF(data);
         closeConnection();
     }
+    
     public void sendsignIn(String userName, String password) throws IOException 
     {
-        satablishConnection();
         String  data  = "signIn,"+ userName+ "," +  password ;
         this.userName =userName;
         dos.writeUTF(data);
     }
+    
     public void sendUserName(String userName) throws IOException
     {
         String userNameCheck = "checkUserName," + userName;
         dos.writeUTF(userNameCheck);
         
     }
+    
     public void signOut() throws IOException
     {
         String checkSignOut = "signOut,"+userName;
         dos.writeUTF(checkSignOut);
     }
     
+    protected void sendSignal() throws IOException
+    {
+        dos.writeUTF("getUsersData");
+    }
     
 //    protected void sendMovement(javafx.event.ActionEvent actionEvent) {
 //        try {

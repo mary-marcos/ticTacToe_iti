@@ -213,9 +213,9 @@ public class SignInScr extends BorderPane {
 
    protected void signIn(ActionEvent actionEvent)
     {
-        clint.satablishConnection();
         try 
         {
+            clint.stablishConnection();
             clint.sendsignIn(userNameTxt.getText(), passwordTxt.getText());
         } catch (IOException ex) 
         {
@@ -225,22 +225,27 @@ public class SignInScr extends BorderPane {
         clint.readFromServer();
         if (clint.isExist)
         {                    
-                chooseModeScreen(actionEvent);
+            chooseModeScreen(actionEvent);
         } 
          else
          {
-           Platform.runLater(() ->
-           {
-             showAlert("Incorrect user name or password",
-                            "Please Check user name and Password", "ok");
-           });
+            Platform.runLater(() ->
+            {
+              showAlert("Incorrect user name or password",
+                             "Please Check user name and Password", "ok");
+             try 
+             {
+                 clint.closeConnection();
+             } 
+             catch (IOException ex) 
+             {
+                 Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
+             }
+
+            });
          }
         
-//            try {
-//                clint.closeConnection();
-//            } catch (IOException ex) {
-//                Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+
     }
        
 

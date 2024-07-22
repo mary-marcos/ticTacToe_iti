@@ -36,11 +36,12 @@ public class MultiPlayerModeSrc extends BorderPane
     
     private SignInScr signInScr;
     private ChooseModeScr chooseModeSrc;
-    private GameOnlineSrc onlineGame;
+    private OnlineScr onlineScr;
     private GameScr gameSrc;
     private Parent root;
     private Scene scene;
     private Stage stage;
+    Clint clint;
     
 
     public MultiPlayerModeSrc(Stage _stage) {
@@ -61,6 +62,7 @@ public class MultiPlayerModeSrc extends BorderPane
         
         signInScr = new SignInScr(_stage);
         chooseModeSrc = new ChooseModeScr(_stage);
+        clint = Clint.obj();
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -207,28 +209,22 @@ public class MultiPlayerModeSrc extends BorderPane
 
     protected  void onlineMultiGame(javafx.event.ActionEvent actionEvent)
     {
-//        try {
-//            root = FXMLLoader.load(getClass().getResource("/style/OnlineFXML.fxml"));
-//        } catch (IOException ex) {
-//            Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-//        root.setId("backG");
-//        scene = new Scene(root,750,570);
-//        scene.getStylesheets().add(getClass()
-//                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-//        stage.setScene(scene);
-//        stage.show();
-        
-        
-     onlineGame = new GameOnlineSrc(stage);
-        onlineGame.setId("backG");
+        try 
+        {
+          clint.sendSignal();
+          clint.readFromServer();
+        } catch (IOException ex) {
+            Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+        onlineScr = new OnlineScr(stage);
+        onlineScr.setId("backG");
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(onlineGame, 750, 570);
+        scene = new Scene(onlineScr, 750, 570);
         scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-        
+
     }
 
     protected  void gameRecord(javafx.event.ActionEvent actionEvent)

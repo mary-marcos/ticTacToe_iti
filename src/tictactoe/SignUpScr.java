@@ -314,9 +314,9 @@ public class SignUpScr extends BorderPane {
     }
     private void checkDublicatedUser()
     {
-        clint.satablishConnection();
         try 
         {
+            clint.stablishConnection();
             clint.sendUserName(user_Name.getText());
         } 
         catch (IOException ex) 
