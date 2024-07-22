@@ -42,18 +42,6 @@ public class TicTacToe extends Application {
     }
 
     public void exit(Stage stage) {
-        
-        if (clint.isExist)
-        {
-            try 
-            {
-                clint.signOut();
-            } 
-            catch (IOException ex) 
-            {
-                Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit");
@@ -66,7 +54,8 @@ public class TicTacToe extends Application {
                 try {
                     if (clint.isExist)
                     {
-                    clint.closeConnection();
+                        clint.signOut();
+                        clint.closeConnection();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);

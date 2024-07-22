@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class OnlineScr extends BorderPane {
 
@@ -159,6 +161,30 @@ public class OnlineScr extends BorderPane {
        Avilability.setCellValueFactory(new PropertyValueFactory<Users, String>("availableity"));
        
        onlineTabel.getItems().addAll(clint.usersData);
+       
+       playerNameC.setCellFactory(new Callback<TableColumn<Users, String>, TableCell<Users, String>>() {
+            @Override
+            public TableCell<Users, String> call(TableColumn<Users, String> param) {
+                return new TableCell<Users, String>() {
+                    @Override
+                    protected void updateItem(String userName, boolean empty) {
+                        super.updateItem(userName, empty);
+                        if (empty || userName == null) {
+                            setText(null);
+                        } else {
+                            setText(userName);
+                            setOnMouseClicked(event -> {
+                                  if (!isEmpty() && event.getClickCount() == 2) {
+
+                                        System.out.println("Clicked on username: " + userName);
+                                  }
+                                
+                            });
+                        }
+                    }
+                };
+            }
+        });
     }
 
     protected void back(ActionEvent actionEvent)
