@@ -56,6 +56,7 @@ public class TicTacToe extends Application {
                     {
                         clint.signOut();
                         clint.closeConnection();
+                        clint.myThread.stop();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);

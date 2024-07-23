@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class Clint 
 {
@@ -17,12 +20,22 @@ public class Clint
     String received;
     boolean isExist = false;
     boolean isRepeated =false;
-    String userName;
+    String currentUser;
     private static Clint instance;
     int usersCount;
     Vector <Users> usersData = new Vector <>();
+    Thread myThread;
     private Clint()
     {
+        myThread = new Thread(()->{
+            
+            try {
+                readinvitation();
+            } catch (IOException ex) {
+                Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         
     }
      public static synchronized Clint obj() {
@@ -105,6 +118,10 @@ public class Clint
             {
                 String received = dis.readUTF();
                 String[] parts = received.split(",");
+                if (parts[1].equals(currentUser))
+                {
+                    continue;
+                }
                 Users user = new Users(parts[1] ,parts[2],parts[3]);
                 usersData.add(user);
             }
@@ -124,7 +141,7 @@ public class Clint
     public void sendsignIn(String userName, String password) throws IOException 
     {
         String  data  = "signIn,"+ userName+ "," +  password ;
-        this.userName =userName;
+        this.currentUser =userName;
         dos.writeUTF(data);
     }
     
@@ -137,7 +154,7 @@ public class Clint
     
     public void signOut() throws IOException
     {
-        String checkSignOut = "signOut,"+userName;
+        String checkSignOut = "signOut,"+currentUser;
         dos.writeUTF(checkSignOut);
     }
     
@@ -146,6 +163,38 @@ public class Clint
         dos.writeUTF("getUsersData");
     }
     
+    protected void sendUsersForRequist(String reciever) throws IOException
+    {
+        dos.writeUTF("Invitation,"+currentUser+","+reciever);
+        System.out.println("from clint"+reciever+"current = "+currentUser);
+    }
+    
+    protected void readinvitation() throws IOException
+    {
+        String x = dis.readUTF();
+        
+        String [] parts = x.split(",");
+        
+         if (parts[0].equals("invitation recieved"))
+         {
+        Platform.runLater(()->{
+        
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invitation");
+            alert.setHeaderText(parts[2]+" Invits you to paly a game\nDo you accept");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == ButtonType.YES) {
+
+                    alert.close();
+                } else {
+                    alert.close();
+                }
+            }); 
+        });
+         }
+    }
 //    protected void sendMovement(javafx.event.ActionEvent actionEvent) {
 //        try {
 //            dos.writeUTF(sendBox.getText());
@@ -154,6 +203,8 @@ public class Clint
 //            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+    
+    
     
     
 }

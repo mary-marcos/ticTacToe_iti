@@ -314,6 +314,7 @@ public class ChooseModeScr extends BorderPane {
               
                 try {
                     clint.closeConnection();
+                    clint.myThread.stop();
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
                 }

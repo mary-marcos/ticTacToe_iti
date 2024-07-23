@@ -1,5 +1,8 @@
 package tictactoe;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -38,8 +41,10 @@ public class OnlineScr extends BorderPane {
     Stage stage;
     Scene scene;
     protected Clint clint;
+//    Thread myThread;
 
     public OnlineScr(Stage _stage) {
+        
 
         anchorPane = new AnchorPane();
         icon = new ImageView();
@@ -56,6 +61,16 @@ public class OnlineScr extends BorderPane {
         backBtn = new Button();
         stage = _stage;
         clint = Clint.obj();
+//        myThread = new Thread(() -> {
+//            while(true){
+//                try {
+//                    clint.readinvitation();
+//                } catch (IOException ex) {
+//                    Logger.getLogger(OnlineScr.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+//         myThread.start();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -176,7 +191,12 @@ public class OnlineScr extends BorderPane {
                             setOnMouseClicked(event -> {
                                   if (!isEmpty() && event.getClickCount() == 2) {
 
-                                        System.out.println("Clicked on username: " + userName);
+                                      try {
+                                          clint.sendUsersForRequist(userName);
+                                          System.out.println("from Online sce "+userName);
+                                      } catch (IOException ex) {
+                                          Logger.getLogger(OnlineScr.class.getName()).log(Level.SEVERE, null, ex);
+                                      }
                                   }
                                 
                             });
@@ -198,5 +218,7 @@ public class OnlineScr extends BorderPane {
         stage.setScene(scene);
         stage.show();
     }
+        
+        
 
 }

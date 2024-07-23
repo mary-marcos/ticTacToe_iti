@@ -213,6 +213,7 @@ public class MultiPlayerModeSrc extends BorderPane
         {
           clint.sendSignal();
           clint.readFromServer();
+          clint.myThread.start();
         } catch (IOException ex) {
             Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
         }
