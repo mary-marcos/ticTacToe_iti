@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 
 
 
-public class GameOnlineSrc extends AnchorPane implements Runnable {
+public class GameOnlineSrc extends AnchorPane{
 
     boolean isXTurn;
     protected final Label label;
@@ -72,24 +72,12 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
     private String[][] board;
 
     // Thread thread;
-    Socket so;
-    DataInputStream din;
-    DataOutputStream dout;
     MultiPlayerModeSrc multiplaysrc;
     Stage stage;
      private Scene scene;
 
     public GameOnlineSrc(Stage stage) {
         this.stage=stage;
-        try {
-            so = new Socket("10.178.240.79", 5005);
-            din = new DataInputStream(so.getInputStream());
-            dout = new DataOutputStream(so.getOutputStream());
-
-        } catch (IOException ex) {
-            Logger.getLogger(GameOnlineSrc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         label = new Label();
         label0 = new Label();
         gridPane = new GridPane();
@@ -121,8 +109,6 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
         label6 = new Label();
         triangleButtonPane = new StackPane();
         triangleButton = new Button();
-        Thread t = new Thread(this);
-        t.start();
 
         setId("ticTacToe");
         setPrefHeight(570.0);
@@ -371,15 +357,6 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
             String player = isXTurn ? "X" : "O";
 
             String move = "move," + row + "," + col + "," + player;
-            
-            try {
-                
-                dout.writeUTF(move);
-                dout.flush();
-
-            } catch (IOException ex) {
-               
-            }
              
             updateBoardFromUI(row, col, player);
             
@@ -389,39 +366,39 @@ public class GameOnlineSrc extends AnchorPane implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        try {
-
-            while (true) {
-                String serverMessage = din.readUTF();
-                System.out.println(serverMessage);
-                String[] parts = serverMessage.split(",");
-
-                if (parts.length >= 3) {
-                    int row = Integer.parseInt(parts[1]);
-                    int col = Integer.parseInt(parts[2]);
-                    String player = parts[3];
-
-                    
-                    Platform.runLater(() -> {
-                    updateBoardFromUI(row, col, player);
-                    
-                });
-//               
-                    isXTurn = !isXTurn;
-//               
-
-                } else {
-
-                    System.err.println("Unexpected server message format: " + serverMessage);
-                }
-
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(GameOnlineSrc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    @Override
+//    public void run() {
+//        try {
+//
+//            while (true) {
+//                String serverMessage = din.readUTF();
+//                System.out.println(serverMessage);
+//                String[] parts = serverMessage.split(",");
+//
+//                if (parts.length >= 3) {
+//                    int row = Integer.parseInt(parts[1]);
+//                    int col = Integer.parseInt(parts[2]);
+//                    String player = parts[3];
+//
+//                    
+//                    Platform.runLater(() -> {
+//                    updateBoardFromUI(row, col, player);
+//                    
+//                });
+////               
+//                    isXTurn = !isXTurn;
+////               
+//
+//                } else {
+//
+//                    System.err.println("Unexpected server message format: " + serverMessage);
+//                }
+//
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(GameOnlineSrc.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     private Button getButtonAt(int row, int col) {
         for (Node node : gridPane.getChildren()) {

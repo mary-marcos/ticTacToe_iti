@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
 public class Clint 
 {
@@ -25,14 +26,21 @@ public class Clint
     int usersCount;
     Vector <Users> usersData = new Vector <>();
     Thread myThread;
+    String reciever;
+    String sender;
+//    Stage stage;
+//    = TicTacToe.getStage();
+//    OnlineScr onlineScr = new OnlineScr( stage);
     private Clint()
     {
         myThread = new Thread(()->{
             
-            try {
-                readinvitation();
-            } catch (IOException ex) {
-                Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+            while(true){
+                try {
+                    readinvitation();
+                } catch (IOException ex) {
+                    Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
@@ -167,6 +175,7 @@ public class Clint
     {
         dos.writeUTF("Invitation,"+currentUser+","+reciever);
         System.out.println("from clint"+reciever+"current = "+currentUser);
+        this.reciever = reciever;
     }
     
     protected void readinvitation() throws IOException
@@ -175,25 +184,66 @@ public class Clint
         
         String [] parts = x.split(",");
         
-         if (parts[0].equals("invitation recieved"))
-         {
-        Platform.runLater(()->{
+        switch (parts[0])
+        {
+            case "invitation recieved":
+                reciever = parts[1];
+                sender = parts[2];
+                Platform.runLater(()->{
         
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Invitation");
-            alert.setHeaderText(parts[2]+" Invits you to paly a game\nDo you accept");
-            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Invitation");
+                alert.setHeaderText(parts[2]+" Invits you to paly a game\nDo you accept");
+                alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 
-            alert.showAndWait().ifPresent(buttonType -> {
-                if (buttonType == ButtonType.YES) {
+                alert.showAndWait().ifPresent(buttonType -> {
+                    if (buttonType == ButtonType.YES) {
+                        try {
+                            invitationResponse("Accepted,"+reciever+","+sender);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        alert.close();
+                    } else {
+                        try {
+                            invitationResponse("refused,"+reciever+","+sender);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Clint.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        alert.close();
+                    }
+                 }); 
+                });
 
-                    alert.close();
-                } else {
-                    alert.close();
-                }
-            }); 
-        });
-         }
+                    break;
+                case "Challenge accepted":
+    //                onlineScr.toGameScreen("Challenge accepted");
+                    System.out.println("challenge accepted");
+                    break;
+
+                case "Challenge rejected":
+                    System.out.println("challenge rejected");
+                    Platform.runLater(()->{
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Invitation rejected");
+                        alert.setHeaderText("Invitation rejected");
+                        alert.getButtonTypes().setAll(ButtonType.OK);
+
+                        alert.showAndWait().ifPresent(buttonType -> {
+                            if (buttonType == ButtonType.OK) {
+                                alert.close();
+                            }
+                        });
+                    });
+                            
+                     
+                    break;
+            }
+        
+    }
+    protected void invitationResponse(String reply) throws IOException
+    {
+        dos.writeUTF(reply);
     }
 //    protected void sendMovement(javafx.event.ActionEvent actionEvent) {
 //        try {

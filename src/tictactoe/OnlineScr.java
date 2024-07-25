@@ -42,7 +42,7 @@ public class OnlineScr extends BorderPane {
     Scene scene;
     protected Clint clint;
 //    Thread myThread;
-
+    
     public OnlineScr(Stage _stage) {
         
 
@@ -217,6 +217,21 @@ public class OnlineScr extends BorderPane {
                 .getResource("/style/CSS_StyleSheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
+        clint.myThread.suspend();
+    }
+    
+    protected void toGameScreen(String reply)
+    {
+        if (reply.equals("Challenge accepted"))
+        {
+             GameOnlineSrc gameOnlineScr = new GameOnlineSrc(stage);
+             gameOnlineScr.setId("backG");
+            scene = new Scene(multiPlayerModeSrc,750,570);
+            scene.getStylesheets().add(getClass()
+                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+        }
     }
         
         

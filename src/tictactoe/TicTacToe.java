@@ -20,9 +20,15 @@ import javafx.stage.Stage;
 public class TicTacToe extends Application {
     SignInScr root;
     Clint clint = Clint.obj();
+//    private static Stage mainStage;
+//    public static Stage getStage()
+//    {
+//        return mainStage;
+//    }
     @Override
     public void start(Stage stage) throws Exception {
         
+//        mainStage = stage;
         Font.loadFont(getClass().getResource("/fonts/MooLahLah-Regular.ttf").toExternalForm(), 10);
         
         root = new SignInScr(stage);

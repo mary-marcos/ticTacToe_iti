@@ -42,6 +42,7 @@ public class MultiPlayerModeSrc extends BorderPane
     private Scene scene;
     private Stage stage;
     Clint clint;
+    boolean firstTime = true;
     
 
     public MultiPlayerModeSrc(Stage _stage) {
@@ -213,7 +214,15 @@ public class MultiPlayerModeSrc extends BorderPane
         {
           clint.sendSignal();
           clint.readFromServer();
+          if (firstTime)
+          {
           clint.myThread.start();
+          firstTime = false;
+          }
+          else 
+          {
+            clint.myThread.resume();
+          }
         } catch (IOException ex) {
             Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
         }
