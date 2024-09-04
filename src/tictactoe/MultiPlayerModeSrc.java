@@ -18,8 +18,8 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class MultiPlayerModeSrc extends BorderPane
-{
+public class MultiPlayerModeSrc extends BorderPane{
+    
     protected final AnchorPane anchorPane;
     protected final ImageView icon;
     protected final Label modeName;
@@ -34,18 +34,11 @@ public class MultiPlayerModeSrc extends BorderPane
     protected final Label label2;
     protected final Button backBtn;
     
-    private SignInScr signInScr;
-    private ChooseModeScr chooseModeSrc;
-    private OnlineScr onlineScr;
-    private GameScr gameSrc;
-    private Parent root;
-    private Scene scene;
-    private Stage stage;
-    Clint clint;
+    ServerHandler clint;
     boolean firstTime = true;
     
 
-    public MultiPlayerModeSrc(Stage _stage) {
+    public MultiPlayerModeSrc() {
 
         anchorPane = new AnchorPane();
         icon = new ImageView();
@@ -61,9 +54,7 @@ public class MultiPlayerModeSrc extends BorderPane
         label2 = new Label();
         backBtn = new Button();
         
-        signInScr = new SignInScr(_stage);
-        chooseModeSrc = new ChooseModeScr(_stage);
-        clint = Clint.obj();
+        clint = ServerHandler.obj();
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -197,66 +188,44 @@ public class MultiPlayerModeSrc extends BorderPane
 
     }
 
-   protected void offlineMultiGame(javafx.event.ActionEvent actionEvent)
-    {
-        gameSrc = new GameScr(stage,false,0);
-        gameSrc.setId("backG");
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(gameSrc, 750, 570);
-        scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+   protected void offlineMultiGame(javafx.event.ActionEvent actionEvent){
+       
+        TicTacToe.setScreen("gameScreenMulti");
     }
 
-    protected  void onlineMultiGame(javafx.event.ActionEvent actionEvent)
-    {
-        try 
-        {
-          clint.sendSignal();
-          clint.readFromServer();
-          if (firstTime)
-          {
-          clint.myThread.start();
-          firstTime = false;
-          }
-          else 
-          {
-            clint.myThread.resume();
-          }
+    protected  void onlineMultiGame(javafx.event.ActionEvent actionEvent){
+        
+        if (!clint.usersData.isEmpty()){
+           clint.usersData.clear();
+        }
+        try {
+            clint.sendSignal();
         } catch (IOException ex) {
             Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
-        onlineScr = new OnlineScr(stage);
-        onlineScr.setId("backG");
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(onlineScr, 750, 570);
-        scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-
+        TicTacToe.setScreen("onlineScreen");
     }
 
-    protected  void gameRecord(javafx.event.ActionEvent actionEvent)
-    {
-          try {
-            root = FXMLLoader.load(getClass().getResource("/style/GamesRecord.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        root.setId("backG");
-        scene = new Scene(root,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected  void gameRecord(javafx.event.ActionEvent actionEvent){
+        
+//          try {
+//            root = FXMLLoader.load(getClass().getResource("/style/GamesRecord.fxml"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(MultiPlayerModeSrc.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+//        root.setId("backG");
+//        scene = new Scene(root,750,570);
+//        scene.getStylesheets().add(getClass()
+//                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
+//        stage.setScene(scene);
+//        stage.show();
     }
 
 
-    protected void back(javafx.event.ActionEvent actionEvent)
-    {
-     signInScr.chooseModeScreen(actionEvent);
+    protected void back(javafx.event.ActionEvent actionEvent){
+        
+     TicTacToe.setScreen("chooseModeScreen");
 
     }
 }

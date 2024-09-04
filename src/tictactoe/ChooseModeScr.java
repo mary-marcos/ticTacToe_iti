@@ -3,9 +3,7 @@ package tictactoe;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -48,9 +46,9 @@ public class ChooseModeScr extends BorderPane {
     private AboutScr aboutScr;
     private Stage stage;
     private Scene scene;
-    Clint clint;
+    ServerHandler clint;
 
-    public ChooseModeScr(Stage _stage) {
+    public ChooseModeScr() {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -68,9 +66,7 @@ public class ChooseModeScr extends BorderPane {
         label2 = new Label();
         label3 = new Label();
         
-        signInSrc = new SignInScr(_stage);
-        clint = Clint.obj();
-        stage = _stage;
+        clint = ServerHandler.obj();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -222,71 +218,26 @@ public class ChooseModeScr extends BorderPane {
 
     }
     
-    protected void toSignInSrc(ActionEvent action)
-    {
-        signInSrc.setId("backG");
-        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
-        scene = new Scene(signInSrc,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    protected void toMultiPlaySrc(ActionEvent action)
-    {
-        multiMode = new MultiPlayerModeSrc(stage);
-        multiMode.setId("backG");
-        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
-        scene = new Scene(multiMode,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-     protected void toSinglePlaySrc(ActionEvent action)
-    {
-        singleMode = new SinglePlayerModeSrc(stage);
-        singleMode.setId("backG");
-        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
-        scene = new Scene(singleMode,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
     protected void singlePlayerMode(ActionEvent actionEvent)
     {
-        toSinglePlaySrc(actionEvent);
+        TicTacToe.setScreen("singleMoodeScreen");
     }
 
     protected void multiPlayerMode(ActionEvent actionEvent)
     {
-        toMultiPlaySrc(actionEvent);
+        TicTacToe.setScreen("multiModeScreen");
     }
 
-    protected void leadBoard(ActionEvent actionEvent)
-    {
-        leadBoardScr = new LeadBoardScr(stage);
-        leadBoardScr.setId("backG");
-        stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(leadBoardScr,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void leadBoard(ActionEvent actionEvent){
+        
+        TicTacToe.setScreen("leadboardScreen");
+        
     }
 
-    protected void about(ActionEvent actionEvent)
-    {
-        aboutScr = new AboutScr(stage);
-        stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(aboutScr,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void about(ActionEvent actionEvent){
+        
+       TicTacToe.setScreen("aboutScreen");
+    
     }
 
     protected void signOut(ActionEvent actionEvent)
@@ -314,12 +265,11 @@ public class ChooseModeScr extends BorderPane {
               
                 try {
                     clint.closeConnection();
-                    clint.myThread.stop();
                 } catch (IOException ex) {
                     Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                Platform.runLater(()->{toSignInSrc(actionEvent);});
+                TicTacToe.setScreen("signinScreen");
             } else {
                 alert.close();
             }

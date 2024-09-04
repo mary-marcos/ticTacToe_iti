@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 
 public class SinglePlayerModeSrc extends BorderPane {
@@ -31,13 +30,8 @@ public class SinglePlayerModeSrc extends BorderPane {
     protected final Label label3;
     protected final Button backBtn;
     
-    private SignInScr signInScr;
-    private ChooseModeScr chooseModeSrc;
-    private Stage stage;
-    private Scene scene;
-    private GameScr gameSrc;
 
-    public SinglePlayerModeSrc(Stage _stage) {
+    public SinglePlayerModeSrc() {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -53,10 +47,7 @@ public class SinglePlayerModeSrc extends BorderPane {
         label2 = new Label();
         label3 = new Label();
         backBtn = new Button();
-        
-        signInScr = new SignInScr(_stage);
-        chooseModeSrc = new ChooseModeScr(_stage);
-
+       
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -206,44 +197,27 @@ public class SinglePlayerModeSrc extends BorderPane {
 
     }
 
-    protected void easyMode(javafx.event.ActionEvent actionEvent)
-    {
-        gameSrc = new GameScr(stage,true,1);
-        gameSrc.setId("backG");
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(gameSrc, 750, 570);
-        scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void easyMode(javafx.event.ActionEvent actionEvent){
+        
+        TicTacToe.setScreen("gameScreenSingleE");
         
     }
 
-    protected void hardMode(javafx.event.ActionEvent actionEvent)
-    {
-        gameSrc = new GameScr(stage,true,3);
-        gameSrc.setId("backG");
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(gameSrc, 750, 570);
-        scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void hardMode(javafx.event.ActionEvent actionEvent){
+        
+        TicTacToe.setScreen("gameScreenSingleH");
     }
 
-    protected void mediumMode(javafx.event.ActionEvent actionEvent)
-    {
-        gameSrc = new GameScr(stage,true,2);
-        gameSrc.setId("backG");
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(gameSrc, 750, 570);
-        scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void mediumMode(javafx.event.ActionEvent actionEvent){
+        
+        TicTacToe.setScreen("gameScreenSingleM");
+
     }
 
 
-    protected void back(javafx.event.ActionEvent actionEvent)
-    {
-           signInScr.chooseModeScreen(actionEvent);
+    protected void back(javafx.event.ActionEvent actionEvent){
+        
+        TicTacToe.setScreen("chooseModeScreen");
         
     }
 

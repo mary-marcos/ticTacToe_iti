@@ -69,10 +69,8 @@ public class LeadBoardScr extends AnchorPane {
     protected final Label label110;
     protected final MotionBlur motionBlur0;
     
-    private SignInScr signInScr;
-    private ChooseModeScr chooseModeSrc;
 
-    public LeadBoardScr(Stage _stage) {
+    public LeadBoardScr() {
 
         label = new Label();
         label0 = new Label();
@@ -132,8 +130,6 @@ public class LeadBoardScr extends AnchorPane {
         label110 = new Label();
         motionBlur0 = new MotionBlur();
         
-        signInScr = new SignInScr(_stage);
-        chooseModeSrc = new ChooseModeScr(_stage);
         
         setId("AnchorPane");
         setPrefHeight(570.0);
@@ -618,9 +614,9 @@ public class LeadBoardScr extends AnchorPane {
 
     }
 
-   protected void back(javafx.event.ActionEvent actionEvent)
-    {  
-        signInScr.chooseModeScreen(actionEvent);
+   protected void back(javafx.event.ActionEvent actionEvent){
+       
+        TicTacToe.setScreen("chooseModeScreen");
     }
 
 }

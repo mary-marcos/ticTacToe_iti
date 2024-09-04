@@ -1,17 +1,12 @@
 package tictactoe;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -30,16 +25,14 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-
 
 
 public class GameOnlineSrc extends AnchorPane{
 
-    boolean isXTurn;
+    static boolean isXTurn;
     protected final Label label;
     protected final Label label0;
-    protected final GridPane gridPane;
+    protected static GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
     protected final ColumnConstraints columnConstraints0;
     protected final ColumnConstraints columnConstraints1;
@@ -64,20 +57,20 @@ public class GameOnlineSrc extends AnchorPane{
     protected final TextField chat_txt;
     protected final Label label3;
     protected final Label label4;
-    protected final Label label5;
-    protected final Label label6;
+    protected static Label label5;
+    protected static Label label6;
     protected final StackPane triangleButtonPane;
     protected final Button triangleButton;
    
-    private String[][] board;
+    private static String[][] board;
+    ServerHandler serverHandler;
+    static String move;
+    static String winner;
+    static String videoPath;
 
-    // Thread thread;
-    MultiPlayerModeSrc multiplaysrc;
-    Stage stage;
-     private Scene scene;
 
-    public GameOnlineSrc(Stage stage) {
-        this.stage=stage;
+    public GameOnlineSrc() {
+        
         label = new Label();
         label0 = new Label();
         gridPane = new GridPane();
@@ -210,10 +203,9 @@ public class GameOnlineSrc extends AnchorPane{
         backBtn.setPrefHeight(38.0);
         backBtn.setPrefWidth(103.0);
         backBtn.setStyle("-fx-background-color: #FFC201; -fx-background-radius: 20px;");
-        backBtn.setText("back");
+        backBtn.setText("Exit Game");
         backBtn.setTextFill(javafx.scene.paint.Color.valueOf("#fffafa"));
-       backBtn.setOnAction(
-                this::multiplaysrc);
+       backBtn.setOnAction(this::ExitGame);
 
         AnchorPane.setBottomAnchor(textArea, 155.0);
         textArea.setLayoutX(479.0);
@@ -311,18 +303,28 @@ public class GameOnlineSrc extends AnchorPane{
 
         isXTurn = true;
 
-       
+       serverHandler = ServerHandler.obj();
     }
-    protected void multiplaysrc(ActionEvent action)
-    {
-        multiplaysrc = new MultiPlayerModeSrc(stage);
-        multiplaysrc.setId("backG");
-        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
-        scene = new Scene(multiplaysrc,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void ExitGame(ActionEvent action){
+        
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Exit Game");
+        alert.setContentText("Are you sure?\nYou will lose if you left the game");
+        alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
+        alert.showAndWait().ifPresent(button->{
+            if (button == ButtonType.NO){
+                alert.close();
+            }else{
+                 try {
+                         serverHandler.sendGemeExit();
+                 } catch (IOException ex) {
+                Logger.getLogger(GameOnlineSrc.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                TicTacToe.setScreen("multiModeScreen");
+            }
+        });
+        
+       
     }
 
     private void initializeButton(GridPane gridPane, Button button, int row, int column) {
@@ -352,12 +354,15 @@ public class GameOnlineSrc extends AnchorPane{
 
             int row = GridPane.getRowIndex(clickedButton);
             int col = GridPane.getColumnIndex(clickedButton);
-
-           
+            
             String player = isXTurn ? "X" : "O";
 
-            String move = "move," + row + "," + col + "," + player;
-             
+            move = "move," + row + "," + col + "," + player;
+            try {
+                serverHandler.sendMessage(move);
+            } catch (IOException ex) {
+                Logger.getLogger(GameOnlineSrc.class.getName()).log(Level.SEVERE, null, ex);
+            }
             updateBoardFromUI(row, col, player);
             
              setButtonsDisabled(true);
@@ -400,7 +405,7 @@ public class GameOnlineSrc extends AnchorPane{
 //        }
 //    }
 
-    private Button getButtonAt(int row, int col) {
+    private static Button getButtonAt(int row, int col) {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button btn = (Button) node;
@@ -412,33 +417,37 @@ public class GameOnlineSrc extends AnchorPane{
         return null; 
     }
 
-    public void updateBoardFromUI(int row, int col, String player) {
+    public static void updateBoardFromUI(int row, int col, String player) {
         
         Button btn = getButtonAt(row, col);
         if (btn != null && btn.getText().isEmpty()) {
             btn.setText(player);
             btn.setId(player.equals("X") ? "yellow2" : "pink");
+            if (player.equals("X")){
+                isXTurn = false;
+            }else{
+                isXTurn = true;
+            }
             board[row][col] = player;
             checkWinner();
-            setButtonsDisabled(false);
         }
 
     }
 
-    private void checkWinner() {
+    private static void checkWinner() {
 
         if (checkRows() || checkColumns() || checkDiagonals()) {
-            String winner = isXTurn ? "X" : "O";
-            showAlert(winner + " wins!");
+            winner = isXTurn ? "X" : "O";
+//            showAlert(winner + " wins!");
             resetBoard();
         } else if (isBoardFull()) {
-            showAlert("It's a tie!");
+//            showAlert("It's a tie!");
             resetBoard();
         }
         ////isXTurn=!isXTurn;
     }
 
-    private boolean checkRows() {
+    private static boolean checkRows() {
 
         for (int i = 0; i < 3; i++) {
             if (!board[i][0].isEmpty() && board[i][0].equals(board[i][1]) && board[i][1].equals(board[i][2])) {
@@ -448,7 +457,7 @@ public class GameOnlineSrc extends AnchorPane{
         return false;
     }
 
-    private boolean checkColumns() {
+    private static boolean checkColumns() {
         for (int i = 0; i < 3; i++) {
             if (!board[0][i].isEmpty() && board[0][i].equals(board[1][i]) && board[1][i].equals(board[2][i])) {
                 return true;
@@ -457,7 +466,7 @@ public class GameOnlineSrc extends AnchorPane{
         return false;
     }
 
-    private boolean checkDiagonals() {
+    private static boolean checkDiagonals() {
         if (!board[0][0].isEmpty() && board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2])) {
             return true;
         }
@@ -467,7 +476,7 @@ public class GameOnlineSrc extends AnchorPane{
         return false;
     }
 
-    private boolean isBoardFull() {
+    private static boolean isBoardFull() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j].isEmpty()) {
@@ -479,47 +488,47 @@ public class GameOnlineSrc extends AnchorPane{
     }
 
   
-    private void showAlert(String message) {
-        String title = "Game Over - " + message;
-        VBox vbox = new VBox();
-        vbox.setSpacing(20);
+//    private static void showAlert(String message) {
+//        String title = "Game Over - " + message;
+//        VBox vbox = new VBox();
+//        vbox.setSpacing(20);
+//
+//        String videoPath = getClass().getResource("/resources/videos/congrats.mp4").toExternalForm();
+//        Media media = new Media(videoPath);
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//        MediaView mediaView = new MediaView(mediaPlayer);
+//        mediaView.setFitWidth(400);
+//        mediaView.setFitHeight(300);
+//        mediaView.setPreserveRatio(true);
+//        mediaPlayer.setAutoPlay(true);
+//
+//        Label labelResult = new Label();
+//        labelResult.setAlignment(javafx.geometry.Pos.CENTER);
+//        labelResult.setId("black");
+//        labelResult.setLayoutX(410.0);
+//        labelResult.setLayoutY(416.0);
+//        labelResult.setPrefHeight(38.0);
+//        labelResult.setPrefWidth(350.0);
+//        labelResult.setStyle("-fx-background-color: white; -fx-background-radius: 20px;");
+//        labelResult.setText(title);
+//        labelResult.setFont(new Font(20.0));
+//
+//        vbox.getChildren().addAll(mediaView, labelResult);
+//
+//        Dialog<Void> dialog = new Dialog<>();
+//        DialogPane dialogPane = dialog.getDialogPane();
+//        dialog.setTitle(title);
+//        dialogPane.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
+//        dialogPane.setContent(vbox);
+//        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+//        dialogPane.getButtonTypes().add(okButtonType);
+//        dialogPane.setId("backG");
+//
+//        dialog.showAndWait();
+//        mediaPlayer.stop();
+//    }
 
-        String videoPath = getClass().getResource("/resources/videos/congrats.mp4").toExternalForm();
-        Media media = new Media(videoPath);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        MediaView mediaView = new MediaView(mediaPlayer);
-        mediaView.setFitWidth(400);
-        mediaView.setFitHeight(300);
-        mediaView.setPreserveRatio(true);
-        mediaPlayer.setAutoPlay(true);
-
-        Label labelResult = new Label();
-        labelResult.setAlignment(javafx.geometry.Pos.CENTER);
-        labelResult.setId("black");
-        labelResult.setLayoutX(410.0);
-        labelResult.setLayoutY(416.0);
-        labelResult.setPrefHeight(38.0);
-        labelResult.setPrefWidth(350.0);
-        labelResult.setStyle("-fx-background-color: white; -fx-background-radius: 20px;");
-        labelResult.setText(title);
-        labelResult.setFont(new Font(20.0));
-
-        vbox.getChildren().addAll(mediaView, labelResult);
-
-        Dialog<Void> dialog = new Dialog<>();
-        DialogPane dialogPane = dialog.getDialogPane();
-        dialog.setTitle(title);
-        dialogPane.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        dialogPane.setContent(vbox);
-        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        dialogPane.getButtonTypes().add(okButtonType);
-        dialogPane.setId("backG");
-
-        dialog.showAndWait();
-        mediaPlayer.stop();
-    }
-
-    private void resetBoard() {
+    private static void resetBoard() {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button btn = (Button) node;
@@ -531,7 +540,7 @@ public class GameOnlineSrc extends AnchorPane{
     
     
     
-    private void setButtonsDisabled(boolean disabled) {
+    public static void setButtonsDisabled(boolean disabled) {
     for (Node node : gridPane.getChildren()) {
         if (node instanceof Button) {
             Button btn = (Button) node;

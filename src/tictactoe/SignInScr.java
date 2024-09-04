@@ -1,19 +1,12 @@
 package tictactoe;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -48,14 +41,10 @@ public class SignInScr extends BorderPane {
     protected final Label label3;
     protected final Label geustTxt;
     
-    private SignUpScr signUpSrc;
-    private ChooseModeScr chooseModeSrc;
-    private Stage stage;
-    private Scene scene;
-    Clint clint = Clint.obj();
+    ServerHandler clint = ServerHandler.obj();
    
 
-    public SignInScr(Stage _stage) {
+    public SignInScr() {
 
         anchorPane = new AnchorPane();
         imageView = new ImageView();
@@ -199,84 +188,36 @@ public class SignInScr extends BorderPane {
 
     }
     
-    protected void chooseModeScreen (Event action)
-    {
-        chooseModeSrc = new ChooseModeScr(stage);
-        chooseModeSrc.setId("backG");
-        stage = (Stage)((Node)action.getSource()).getScene().getWindow();
-        scene = new Scene(chooseModeSrc,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void chooseModeScreen (Event action){
+        
+        TicTacToe.setScreen("chooseModeScreen");
     }
 
    protected void signIn(ActionEvent actionEvent)
     {
         try 
         {
-            clint.stablishConnection();
             clint.sendsignIn(userNameTxt.getText(), passwordTxt.getText());
         } catch (IOException ex) 
         {
             Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        clint.readFromServer();
-        if (clint.isExist)
-        {                    
-            chooseModeScreen(actionEvent);
-        } 
-         else
-         {
-            Platform.runLater(() ->
-            {
-              showAlert("Incorrect user name or password",
-                             "Please Check user name and Password", "ok");
-             try 
-             {
-                 clint.closeConnection();
-             } 
-             catch (IOException ex) 
-             {
-                 Logger.getLogger(SignInScr.class.getName()).log(Level.SEVERE, null, ex);
-             }
-
-            });
-         }
-        
+        }  
 
     }
        
 
-    protected void signUp(javafx.scene.input.MouseEvent mouseEvent)
-    {
-        signUpSrc = new SignUpScr(stage);
-        signUpSrc.setId("backG");
-        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(signUpSrc,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void signUp(javafx.scene.input.MouseEvent mouseEvent){
+        
+         TicTacToe.setScreen("signupScreen");
         
     }
 
-    protected void guest(Event mouseEvent)
-    {
-        chooseModeScreen(mouseEvent);
-        chooseModeSrc.button3.setVisible(false);
-        chooseModeSrc.button1.setVisible(false);
+    protected void guest(Event mouseEvent){
         
-    }
-    private void showAlert(String title, String message, String buttonText) 
-    {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        ButtonType button = new ButtonType(buttonText);
-        alert.getButtonTypes().setAll(button);
-        alert.showAndWait();
+        ChooseModeScr chooseModeScr = (ChooseModeScr) TicTacToe.screens.get("chooseModeScreen");
+        chooseModeScr.button3.setVisible(false);
+        chooseModeScr.button1.setVisible(false);
+        TicTacToe.setScreen("chooseModeScreen");
     }
 
 }

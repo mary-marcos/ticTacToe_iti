@@ -52,19 +52,12 @@ public class GamesRecordController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-         multiPlayerModeScr = new MultiPlayerModeSrc(stage);
     }    
 
     @FXML
-    private void back(ActionEvent event)
-    {
-        multiPlayerModeScr.setId("backG");
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(multiPlayerModeScr,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    private void back(ActionEvent event){
+        
+        TicTacToe.setScreen("multiModeScreen");
     }
     
 }

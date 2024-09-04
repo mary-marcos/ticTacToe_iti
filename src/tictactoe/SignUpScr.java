@@ -48,13 +48,10 @@ public class SignUpScr extends BorderPane {
     protected final ImageView imageView3;
     protected final Label ticTacToe;
     
-    private SignInScr signInSrc;
-    private Stage stage;
-    private Scene scene;
-    Clint clint;
+    ServerHandler clint;
     boolean successfulSignUp = false;
 
-    public SignUpScr(Stage stage) {
+    public SignUpScr() {
 
         anchorPane = new AnchorPane();
         pane = new Pane();
@@ -77,7 +74,7 @@ public class SignUpScr extends BorderPane {
         imageView3 = new ImageView();
         ticTacToe = new Label();
         
-        clint = Clint.obj();
+        clint = ServerHandler.obj();
         anchorPane.setId("AnchorPane");
         anchorPane.setPrefHeight(534.0);
         anchorPane.setPrefWidth(752.0);
@@ -271,8 +268,7 @@ public class SignUpScr extends BorderPane {
                         checkDublicatedUser();
                         if (successfulSignUp)
                         {
-                            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                            navigateToSignIn();
+                            showAlertWithDirection();
                         }
                     }
                 }
@@ -283,24 +279,13 @@ public class SignUpScr extends BorderPane {
         
     }
 
-    protected void backToSignIn(MouseEvent mouseEvent)
-    {
-        stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        navigateToSignIn();
+    protected void backToSignIn(MouseEvent mouseEvent){
         
-    }
-    private void navigateToSignIn() {
-        signInSrc = new SignInScr(stage);
-        signInSrc.setId("backG");
-        scene = new Scene(signInSrc, 750, 570);
-        scene.getStylesheets().add(getClass().getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        TicTacToe.setScreen("signinScreen");
     }
    
     
-    private void showAlert(String title, String message, String buttonText) 
-    {
+    private void showAlert(String title, String message, String buttonText) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setContentText(message);
@@ -308,7 +293,18 @@ public class SignUpScr extends BorderPane {
         alert.getButtonTypes().setAll(button);
         alert.showAndWait().ifPresent(buttonType -> {
             if (buttonType == button) {
-                alert.close();
+                TicTacToe.setScreen("signinScreen");
+            }
+        });
+    }
+     private void showAlertWithDirection() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Successfull SignUp");
+        alert.setContentText("You have signedup Successfully");
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                
             }
         });
     }

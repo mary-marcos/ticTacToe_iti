@@ -23,7 +23,7 @@ public class AboutScr extends AnchorPane {
     protected final Label label3;
     protected final Label label4;
 
-    public AboutScr(Stage stage) {
+    public AboutScr() {
 
         label = new Label();
         ellipse = new Ellipse();

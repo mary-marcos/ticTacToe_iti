@@ -45,14 +45,14 @@ public  class GameScr extends AnchorPane {
     int counteRrecord;
     protected final List<String> moves;
     protected final List<String> rMoves;
-   protected final Label play1Label;
-   protected final Label play2Label;
+    protected final Label play1Label;
+    protected final Label play2Label;
     protected final Label label;
     protected final ImageView imageView;
     protected final ImageView imageView0;
     protected final Label label0;
-     protected final Label label02;
-      protected final Label label03;
+    protected final Label label02;
+    protected final Label label03;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
     protected final ColumnConstraints columnConstraints0;
@@ -75,17 +75,13 @@ public  class GameScr extends AnchorPane {
     protected final Button ScreenShotBtn;
     protected final Button backBtn;
     protected final Button resetBtn;
-     private Stage stage;
-    private Scene scene;
-    SinglePlayerModeSrc singleMode;
-   boolean isSinglemode=false;
-   boolean isXTurn=true;
-   int xScore=0;
-   int oScore=0;
-   int level=0;  
-   boolean isRecording;
- MultiPlayerModeSrc multiplaysrc;
-    public GameScr(Stage stage,boolean isSinglemode,int level) { 
+    boolean isSinglemode=false;
+    boolean isXTurn=true;
+    int xScore=0;
+    int oScore=0;
+    int level=0;  
+    boolean isRecording;
+    public GameScr(boolean isSinglemode,int level) { 
         counteRrecord=0;
         isRecording=false;
         moves = new ArrayList<>();
@@ -126,9 +122,9 @@ public  class GameScr extends AnchorPane {
         setId("ticTacToe");
         setPrefHeight(570.0);
         setPrefWidth(750.0);
-String tittle= " multi players";
-if(this.isSinglemode){
- switch(level){
+        String tittle= " multi players";
+        if(this.isSinglemode){
+        switch(level){
         case 1 :tittle="easy mode";
         break;
         case 2: tittle="medium mode";
@@ -616,29 +612,16 @@ private void startrecord(ActionEvent actionEvent) {
   
 }
 
-     protected void toSinglePlaySrc(ActionEvent action)
-    {
-        singleMode = new SinglePlayerModeSrc(stage);
-        singleMode.setId("backG");
-        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
-        scene = new Scene(singleMode,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+    protected void toSinglePlaySrc(ActionEvent action){
+         
+        TicTacToe.setScreen("singleMoodeScreen");
     }
 
-      protected void multiplaysrc(ActionEvent action)
-    {
-        multiplaysrc = new MultiPlayerModeSrc(stage);
-        multiplaysrc.setId("backG");
-        stage = (Stage)((Node) action.getSource()).getScene().getWindow();
-        scene = new Scene(multiplaysrc,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
+      protected void multiplaysrc(ActionEvent action){
+          
+                TicTacToe.setScreen("multiModeScreen");
+
+      }
     protected void singlePlayerMode(ActionEvent actionEvent)
     {
         if(isSinglemode)

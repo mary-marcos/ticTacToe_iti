@@ -3,10 +3,7 @@ package tictactoe;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -37,13 +34,9 @@ public class OnlineScr extends BorderPane {
     protected final TableColumn status;
     protected final TableColumn Avilability;
     protected final Button backBtn;
-    MultiPlayerModeSrc multiPlayerModeSrc;
-    Stage stage;
-    Scene scene;
-    protected Clint clint;
-//    Thread myThread;
+    protected ServerHandler clint;
     
-    public OnlineScr(Stage _stage) {
+    public OnlineScr() {
         
 
         anchorPane = new AnchorPane();
@@ -59,18 +52,7 @@ public class OnlineScr extends BorderPane {
         status = new TableColumn();
         Avilability = new TableColumn();
         backBtn = new Button();
-        stage = _stage;
-        clint = Clint.obj();
-//        myThread = new Thread(() -> {
-//            while(true){
-//                try {
-//                    clint.readinvitation();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(OnlineScr.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//         myThread.start();
+        clint = ServerHandler.obj();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -175,7 +157,7 @@ public class OnlineScr extends BorderPane {
        status.setCellValueFactory(new PropertyValueFactory<Users, String>("status"));
        Avilability.setCellValueFactory(new PropertyValueFactory<Users, String>("availableity"));
        
-       onlineTabel.getItems().addAll(clint.usersData);
+       onlineTabel.setItems(clint.usersData);
        
        playerNameC.setCellFactory(new Callback<TableColumn<Users, String>, TableCell<Users, String>>() {
             @Override
@@ -207,30 +189,16 @@ public class OnlineScr extends BorderPane {
         });
     }
 
-    protected void back(ActionEvent actionEvent)
-    {
-        multiPlayerModeSrc = new MultiPlayerModeSrc(stage);
-        multiPlayerModeSrc.setId("backG");
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(multiPlayerModeSrc,750,570);
-        scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-        clint.myThread.suspend();
+    protected void back(ActionEvent actionEvent){
+        
+        TicTacToe.setScreen("multiModeScreen");
     }
     
     protected void toGameScreen(String reply)
     {
-        if (reply.equals("Challenge accepted"))
-        {
-             GameOnlineSrc gameOnlineScr = new GameOnlineSrc(stage);
-             gameOnlineScr.setId("backG");
-            scene = new Scene(multiPlayerModeSrc,750,570);
-            scene.getStylesheets().add(getClass()
-                .getResource("/style/CSS_StyleSheet.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
+        if (reply.equals("Challenge accepted")){
+            
+             TicTacToe.setScreen("gameOnlineScreen");
         }
     }
         
